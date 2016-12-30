@@ -30,7 +30,7 @@ ENV HUBOT_GRAFANA_API_KEY	"API key"
 ENV HUBOT_GRAFANA_QUERY_TIME_RANGE "6h"
 ENV HUBOT_SLACK_TOKEN "slack token"
 
-# run it as unprivileged user
+# run hubot as unprivileged user
 RUN groupadd -g 1100 hubot \
   && useradd -ms /bin/bash -u 1100 -g hubot -d "$HUBOT_HOME" hubot \
   && mkdir -p "$HUBOT_HOME" \
@@ -49,7 +49,3 @@ RUN cd "$HUBOT_HOME" \
         --defaults
 
 COPY ./files/external-scripts.json "$HUBOT_HOME"
-
-# USER root
-
-# ENTRYPOINT ["exec runsvdir -P /etc/service 'log: ...........................................................................................................................................................................................................................................................................................................................................................................................................'"]
