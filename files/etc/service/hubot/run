@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+# Do we want to modify the config first with the script?
+[ -f /etc/service/hubot/run.config ] && source /etc/service/hubot/run.config
+
+# Is there any other script to run here?
+[ -f /etc/service/hubot/run.initialization ] && source /etc/service/hubot/run.initialization
+
+exec $HUBOT_HOME/bin/hubot --name "$HUBOT_NAME" --adapter $HUBOT_ADAPTER 2>&1
