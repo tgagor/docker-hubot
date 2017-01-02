@@ -49,3 +49,5 @@ RUN cd "$HUBOT_HOME" \
         --defaults
 
 COPY ./files/external-scripts.json "$HUBOT_HOME"
+
+USER root
