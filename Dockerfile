@@ -50,7 +50,7 @@ RUN cd "$HUBOT_HOME" \
 
 RUN npm install --save \
   hubot-slack hubot-jenkins-slack hubot-jenkins \
-  hubot-grafana
+  hubot-grafana hubot-slack-attachment
 
 COPY ./files/external-scripts.json "$HUBOT_HOME"
 RUN rm -f "$HUBOT_HOME/hubot-scripts.json"
