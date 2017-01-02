@@ -11,6 +11,7 @@ https://www.npmjs.com/package/hubot-grafana
 https://www.npmjs.com/package/hubot-slack
 https://www.npmjs.com/package/hubot-jenkins-slack
 https://www.npmjs.com/package/hubot-jenkins
+https://github.com/inkel/hubot-slack-attachment
 
 ## other interesting
 https://www.npmjs.com/package/hubot-blazemeter

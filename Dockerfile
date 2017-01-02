@@ -12,8 +12,6 @@ RUN apt-get update \
   && chmod +x /usr/local/sbin/runsvdir-start \
   && rm -rf /var/lib/apt/lists/*
 
-COPY ./files/etc /etc
-
 ENV HUBOT_HOME /opt/hubot
 ENV HUBOT_LOG /var/log/hubot
 ENV HUBOT_NAME hu
@@ -26,17 +24,17 @@ ENV HUBOT_GRAFANA_HOST "http://play.grafana.org"
 ENV HUBOT_GRAFANA_API_KEY	"API key"
 ENV HUBOT_GRAFANA_QUERY_TIME_RANGE "6h"
 ENV HUBOT_SLACK_TOKEN "slack token"
+ENV HUBOT_SLACK_INCOMING_WEBHOOK "check here https://my.slack.com/services/new/incoming-webhook"
 
-RUN npm install -g yo generator-hubot
-
-# run hubot as unprivileged user
+# prepare unprivileged user for hubot
 RUN groupadd -g 1100 hubot \
   && useradd -ms /bin/bash -u 1100 -g hubot -d "$HUBOT_HOME" hubot \
   && mkdir -p "$HUBOT_HOME" \
   && mkdir -p "$HUBOT_LOG" \
   && chown -R hubot:hubot "$HUBOT_HOME"
 
-# ENTRYPOINT ["/usr/local/sbin/runsvdir-start"]
+# install generator-hubot
+RUN npm install -g yo generator-hubot
 
 USER hubot
 WORKDIR $HUBOT_HOME
@@ -54,7 +52,9 @@ RUN npm install --save \
 
 COPY ./files/external-scripts.json "$HUBOT_HOME"
 RUN rm -f "$HUBOT_HOME/hubot-scripts.json"
-# \
-  # && chown hubot:hubot "$HUBOT_HOME/external-scripts.json"
 
-CMD ["/opt/hubot/bin/hubot --name $HUBOT_NAME --adapter $HUBOT_ADAPTER"]
+USER root
+
+# copy runit configs
+COPY ./files/etc /etc
+ENTRYPOINT ["/usr/local/sbin/runsvdir-start"]
