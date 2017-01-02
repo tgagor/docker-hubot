@@ -23,7 +23,7 @@ ENV HUBOT_JENKINS_AUTH "user:password"
 ENV HUBOT_GRAFANA_HOST "http://play.grafana.org"
 ENV HUBOT_GRAFANA_API_KEY	"API key"
 ENV HUBOT_GRAFANA_QUERY_TIME_RANGE "6h"
-ENV HUBOT_SLACK_TOKEN "slack token"
+ENV HUBOT_SLACK_TOKEN "check here https://slackapi.github.io/hubot-slack/"
 ENV HUBOT_SLACK_INCOMING_WEBHOOK "check here https://my.slack.com/services/new/incoming-webhook"
 
 # prepare unprivileged user for hubot
