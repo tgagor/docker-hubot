@@ -36,7 +36,7 @@ RUN groupadd -g 1100 hubot \
   && mkdir -p "$HUBOT_LOG" \
   && chown -R hubot:hubot "$HUBOT_HOME"
 
-ENTRYPOINT ["/usr/local/sbin/runsvdir-start"]
+# ENTRYPOINT ["/usr/local/sbin/runsvdir-start"]
 
 USER hubot
 WORKDIR $HUBOT_HOME
@@ -56,3 +56,5 @@ COPY ./files/external-scripts.json "$HUBOT_HOME"
 RUN rm -f "$HUBOT_HOME/hubot-scripts.json"
 # \
   # && chown hubot:hubot "$HUBOT_HOME/external-scripts.json"
+
+CMD ["/opt/hubot/bin/hubot --name $HUBOT_NAME --adapter $HUBOT_ADAPTER"]
