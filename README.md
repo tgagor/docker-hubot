@@ -21,3 +21,4 @@ https://www.npmjs.com/package/hubot-murder
 https://www.npmjs.com/package/hubot-devops-reactions
 https://www.npmjs.com/package/hubot-pager-me
 https://hubot.github.com/docs/patterns/
+https://www.npmjs.com/package/hubot-docker
