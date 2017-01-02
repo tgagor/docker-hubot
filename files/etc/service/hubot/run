@@ -6,4 +6,4 @@
 # Is there any other script to run here?
 [ -f /etc/service/hubot/run.initialization ] && source /etc/service/hubot/run.initialization
 
-exec $HUBOT_HOME/bin/hubot --name "$HUBOT_NAME" --adapter $HUBOT_ADAPTER 2>&1
+exec chpst -u $HUBOT_OWNER $HUBOT_HOME/bin/hubot --name "$HUBOT_NAME" --adapter $HUBOT_ADAPTER 2>&1
