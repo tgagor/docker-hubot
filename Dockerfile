@@ -25,6 +25,7 @@ ENV HUBOT_GRAFANA_API_KEY	"API key"
 ENV HUBOT_GRAFANA_QUERY_TIME_RANGE "6h"
 ENV HUBOT_SLACK_TOKEN "check here https://slackapi.github.io/hubot-slack/"
 ENV HUBOT_SLACK_INCOMING_WEBHOOK "check here https://my.slack.com/services/new/incoming-webhook"
+ENV NODE_ENV production
 
 # prepare unprivileged user for hubot
 RUN groupadd -g 1100 hubot \
@@ -47,14 +48,14 @@ RUN cd "$HUBOT_HOME" \
         --defaults
 
 RUN npm install --save \
-  hubot-slack hubot-jenkins-slack hubot-jenkins \
+  hubot-jenkins-slack hubot-jenkins \
   hubot-grafana hubot-slack-attachment
 
-COPY ./files/external-scripts.json "$HUBOT_HOME"
+COPY ./files/hubot/external-scripts.json "$HUBOT_HOME"
+# ADD ./files/hubot/scripts "$HUBOT_HOME"
 RUN rm -f "$HUBOT_HOME/hubot-scripts.json"
 
-USER root
-
 # copy runit configs
+USER root
 COPY ./files/etc /etc
 ENTRYPOINT ["/usr/local/sbin/runsvdir-start"]

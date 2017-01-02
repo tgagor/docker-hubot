@@ -8,28 +8,15 @@
 
 # configure properly environment
 mkdir -p /etc/service/hubot/env
-# echo $HUBOT_HOME > /etc/service/hubot/env/HUBOT_HOME
-# echo $HUBOT_LOG > /etc/service/hubot/env/HUBOT_LOG
-# echo $HUBOT_NAME > /etc/service/hubot/env/HUBOT_NAME
-# echo $HUBOT_ADAPTER > /etc/service/hubot/env/HUBOT_ADAPTER
-# echo $HUBOT_DESC > /etc/service/hubot/env/HUBOT_DESC
-# echo $HUBOT_OWNER > /etc/service/hubot/env/HUBOT_OWNER
-# echo $HUBOT_JENKINS_URL > /etc/service/hubot/env/HUBOT_JENKINS_URL
-# echo $HUBOT_JENKINS_AUTH > /etc/service/hubot/env/HUBOT_JENKINS_AUTH
-# echo $HUBOT_GRAFANA_HOST > /etc/service/hubot/env/HUBOT_GRAFANA_HOST
-# echo $HUBOT_GRAFANA_API_KEY > /etc/service/hubot/env/HUBOT_GRAFANA_API_KEY
-# echo $HUBOT_GRAFANA_QUERY_TIME_RANGE > /etc/service/hubot/env/HUBOT_GRAFANA_QUERY_TIME_RANGE
-# echo $HUBOT_SLACK_TOKEN > /etc/service/hubot/env/HUBOT_SLACK_TOKEN
-# echo $HUBOT_SLACK_INCOMING_WEBHOOK > /etc/service/hubot/env/HUBOT_SLACK_INCOMING_WEBHOOK
 echo $HUBOT_HOME > /etc/service/hubot/env/HOME
-cd $HUBOT_HOME
 
 while IFS='=' read -r name value ; do
-  if [[ $name =~ ^HUBOT_.* ]]; then
+  if [[ $name =~ ^(HUBOT|NODE)_.* ]]; then
     echo "$name" ${!name}
     echo ${!name} > /etc/service/hubot/env/$name
   fi
 done < <(env)
 
+cd "$HUBOT_HOME"
 exec chpst -u hubot:hubot -e /etc/service/hubot/env \
   $HUBOT_HOME/bin/hubot --name "$HUBOT_NAME" --adapter $HUBOT_ADAPTER 2>&1
