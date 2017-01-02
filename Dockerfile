@@ -14,11 +14,8 @@ RUN apt-get update \
 
 COPY ./files/etc /etc
 
-RUN npm install -g yo generator-hubot plugin \
-  hubot-slack hubot-jenkins-slack hubot-jenkins \
-  hubot-grafana
-
 ENV HUBOT_HOME /opt/hubot
+ENV HUBOT_LOG /var/log/hubot
 ENV HUBOT_NAME hu
 ENV HUBOT_ADAPTER slack
 ENV HUBOT_DESC "Helpful robot"
@@ -30,10 +27,13 @@ ENV HUBOT_GRAFANA_API_KEY	"API key"
 ENV HUBOT_GRAFANA_QUERY_TIME_RANGE "6h"
 ENV HUBOT_SLACK_TOKEN "slack token"
 
+RUN npm install -g yo generator-hubot
+
 # run hubot as unprivileged user
 RUN groupadd -g 1100 hubot \
   && useradd -ms /bin/bash -u 1100 -g hubot -d "$HUBOT_HOME" hubot \
   && mkdir -p "$HUBOT_HOME" \
+  && mkdir -p "$HUBOT_LOG" \
   && chown -R hubot:hubot "$HUBOT_HOME"
 
 ENTRYPOINT ["/usr/local/sbin/runsvdir-start"]
@@ -48,6 +48,11 @@ RUN cd "$HUBOT_HOME" \
         --adapter="$HUBOT_ADAPTER" \
         --defaults
 
-COPY ./files/external-scripts.json "$HUBOT_HOME"
+RUN npm install --save \
+  hubot-slack hubot-jenkins-slack hubot-jenkins \
+  hubot-grafana
 
-USER root
+COPY ./files/external-scripts.json "$HUBOT_HOME"
+RUN rm -f "$HUBOT_HOME/hubot-scripts.json"
+# \
+  # && chown hubot:hubot "$HUBOT_HOME/external-scripts.json"
